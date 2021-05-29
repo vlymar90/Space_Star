@@ -31,7 +31,6 @@ public class MenuScreen extends BaseScreen {
         ScreenUtils.clear(1, 0, 0, 1);
         batch.begin();
         if (pos.x != endPos.x && pos.y != endPos.y) {
-            getDirection();
             pos.add(speed);
         }
         batch.draw(img, 0, 0);
