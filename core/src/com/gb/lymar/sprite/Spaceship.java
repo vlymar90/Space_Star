@@ -1,7 +1,8 @@
 package com.gb.lymar.sprite;
 
+
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.gb.lymar.base.Sprite;
@@ -9,11 +10,13 @@ import com.gb.lymar.math.Rect;
 
 
 public class Spaceship extends Sprite {
+    private static final float PADDING = 0.03f;
     private Vector2 v;
     private Vector2 touch;
 
-    public Spaceship(Texture texture) {
-        super(new TextureRegion(texture));
+    public Spaceship(TextureRegion textureRegion) {
+        super(textureRegion);
+
         v = new Vector2();
         touch = new Vector2();
     }
@@ -21,8 +24,14 @@ public class Spaceship extends Sprite {
     @Override
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
-        setHeightProportion(0.35f);
-        this.pos.set(worldBounds.pos);
+        setHeightProportion(0.2f);
+        setBottom(worldBounds.getBottom() + PADDING);
+
+    }
+
+    @Override
+    public void update(float delta) {
+        super.update(delta);
     }
 
     @Override
