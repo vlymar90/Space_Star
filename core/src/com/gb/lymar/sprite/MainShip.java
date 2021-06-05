@@ -1,14 +1,19 @@
 package com.gb.lymar.sprite;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.gb.lymar.base.Sprite;
 import com.gb.lymar.math.Rect;
 import com.gb.lymar.pool.BulletPool;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainShip extends Sprite {
@@ -31,12 +36,16 @@ public class MainShip extends Sprite {
     private Vector2 bulletV;
     private Vector2 bulletPos;
 
+    private Sound soundShot;
+
+
     public MainShip(TextureAtlas atlas, BulletPool bulletPool) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
         this.bulletPool = bulletPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.bulletV = new Vector2(0, 0.5f);
         this.bulletPos = new Vector2();
+        soundShot = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
     }
 
     @Override
@@ -48,6 +57,9 @@ public class MainShip extends Sprite {
 
     @Override
     public void update(float delta) {
+        if() {
+            shoot();
+        }
         pos.mulAdd(v, delta);
         if (getRight() > worldBounds.getRight()) {
             setRight(worldBounds.getRight());
@@ -57,12 +69,7 @@ public class MainShip extends Sprite {
             setLeft(worldBounds.getLeft());
             stop();
         }
-//        if (getLeft() > worldBounds.getRight()) {
-//            setRight(worldBounds.getLeft());
-//        }
-//        if (getRight() < worldBounds.getLeft()) {
-//            setLeft(worldBounds.getRight());
-//        }
+
     }
 
     @Override
@@ -162,5 +169,6 @@ public class MainShip extends Sprite {
         Bullet bullet = bulletPool.obtain();
         bulletPos.set(pos.x, pos.y + getHalfHeight());
         bullet.set(this, bulletRegion, bulletPos, bulletV, worldBounds, 1, 0.01f);
+        soundShot.play();
     }
 }
