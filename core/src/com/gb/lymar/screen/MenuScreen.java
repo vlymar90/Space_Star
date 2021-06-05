@@ -1,7 +1,6 @@
 package com.gb.lymar.screen;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -11,7 +10,6 @@ import com.gb.lymar.math.Rect;
 import com.gb.lymar.sprite.Background;
 import com.gb.lymar.sprite.ExitButton;
 import com.gb.lymar.sprite.PlayButton;
-import com.gb.lymar.sprite.Spaceship;
 import com.gb.lymar.sprite.Star;
 
 
