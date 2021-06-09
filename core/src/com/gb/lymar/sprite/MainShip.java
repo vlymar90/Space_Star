@@ -1,25 +1,19 @@
 package com.gb.lymar.sprite;
 
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.gb.lymar.base.Sprite;
+import com.gb.lymar.base.Ship;
 import com.gb.lymar.math.Rect;
 import com.gb.lymar.pool.BulletPool;
 
 
-public class MainShip extends Sprite {
+public class MainShip extends Ship {
     private static final float HEIGHT = 0.15f;
     private static final float PADDING = 0.05f;
     private static final int INVALID_POINTER = -1;
-
-    private final Vector2 v0 = new Vector2(0.5f, 0);
-    private final Vector2 v = new Vector2();
+    private static final float RELOAD_INTERVAL = 0.2f;
 
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -31,6 +25,7 @@ public class MainShip extends Sprite {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
         this.bulletPool = bulletPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
+        this.bulletSound = bulletSound;
         this.bulletV = new Vector2(0, 0.5f);
         this.bulletPos = new Vector2();
         v0 = new Vector2(0.5f, 0);
@@ -50,7 +45,8 @@ public class MainShip extends Sprite {
 
     @Override
     public void update(float delta) {
-        pos.mulAdd(v, delta);
+        super.update(delta);
+        bulletPos.set(pos.x, pos.y + getHalfHeight());
         if (getRight() > worldBounds.getRight()) {
             setRight(worldBounds.getRight());
             stop();
@@ -59,7 +55,12 @@ public class MainShip extends Sprite {
             setLeft(worldBounds.getLeft());
             stop();
         }
-
+//        if (getLeft() > worldBounds.getRight()) {
+//            setRight(worldBounds.getLeft());
+//        }
+//        if (getRight() < worldBounds.getLeft()) {
+//            setLeft(worldBounds.getRight());
+//        }
     }
 
     @Override
@@ -151,4 +152,6 @@ public class MainShip extends Sprite {
     private void stop() {
         v.setZero();
     }
+
 }
+
