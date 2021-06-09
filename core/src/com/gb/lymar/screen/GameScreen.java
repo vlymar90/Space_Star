@@ -3,37 +3,30 @@ package com.gb.lymar.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.gb.lymar.base.BaseScreen;
 import com.gb.lymar.math.Rect;
 import com.gb.lymar.pool.BulletPool;
-import com.gb.lymar.pool.EnemyPool;
 import com.gb.lymar.sprite.Background;
 import com.gb.lymar.sprite.MainShip;
 import com.gb.lymar.sprite.Star;
-import com.gb.lymar.utils.EnemyEmitter;
 
 public class GameScreen extends BaseScreen {
     private static final int STAR_COUNT = 64;
 
     private Texture bg;
     private TextureAtlas atlas;
+    private MainShip mainShip;
+    private BulletPool bulletPool;
 
     private Background background;
     private Star[] stars;
-
-    private BulletPool bulletPool;
-    private EnemyPool enemyPool;
-    private MainShip mainShip;
-
-    private Sound laserSound;
-    private Sound bulletSound;
-    private Music music;
-
-    private EnemyEmitter enemyEmitter;
 
     @Override
     public void show() {
@@ -115,13 +108,10 @@ public class GameScreen extends BaseScreen {
         }
         mainShip.update(delta);
         bulletPool.updateActiveSprites(delta);
-        enemyPool.updateActiveSprites(delta);
-        enemyEmitter.generate(delta);
     }
 
     private void freeAllDestroyed() {
         bulletPool.freeAllDestroyed();
-        enemyPool.freeAllDestroyed();
     }
 
     private void draw() {
@@ -133,7 +123,6 @@ public class GameScreen extends BaseScreen {
         }
         mainShip.draw(batch);
         bulletPool.drawActiveSprites(batch);
-        enemyPool.drawActiveSprites(batch);
         batch.end();
     }
 }

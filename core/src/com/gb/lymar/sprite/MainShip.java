@@ -1,24 +1,25 @@
 package com.gb.lymar.sprite;
 
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.gb.lymar.base.Ship;
+import com.gb.lymar.base.Sprite;
 import com.gb.lymar.math.Rect;
 import com.gb.lymar.pool.BulletPool;
 
 
-
-
-public class MainShip extends Ship {
+public class MainShip extends Sprite {
     private static final float HEIGHT = 0.15f;
     private static final float PADDING = 0.05f;
     private static final int INVALID_POINTER = -1;
-    private static final float RELOAD_INTERVAL = 0.2f;
+
+    private final Vector2 v0 = new Vector2(0.5f, 0);
+    private final Vector2 v = new Vector2();
 
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -30,7 +31,6 @@ public class MainShip extends Ship {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
         this.bulletPool = bulletPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
-        this.bulletSound = bulletSound;
         this.bulletV = new Vector2(0, 0.5f);
         this.bulletPos = new Vector2();
         v0 = new Vector2(0.5f, 0);
@@ -41,10 +41,6 @@ public class MainShip extends Ship {
         hp = 100;
     }
 
-
-
-
-
     @Override
     public void resize(Rect worldBounds) {
         this.worldBounds = worldBounds;
@@ -54,8 +50,7 @@ public class MainShip extends Ship {
 
     @Override
     public void update(float delta) {
-        super.update(delta);
-        bulletPos.set(pos.x, pos.y + getHalfHeight());
+        pos.mulAdd(v, delta);
         if (getRight() > worldBounds.getRight()) {
             setRight(worldBounds.getRight());
             stop();
@@ -64,6 +59,7 @@ public class MainShip extends Ship {
             setLeft(worldBounds.getLeft());
             stop();
         }
+
     }
 
     @Override
