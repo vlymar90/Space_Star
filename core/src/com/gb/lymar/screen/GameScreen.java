@@ -1,5 +1,6 @@
 package com.gb.lymar.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -19,6 +20,7 @@ import com.gb.lymar.sprite.Bullet;
 import com.gb.lymar.sprite.EnemyShip;
 import com.gb.lymar.sprite.GameOver;
 import com.gb.lymar.sprite.MainShip;
+import com.gb.lymar.sprite.NewGame;
 import com.gb.lymar.sprite.Star;
 import com.gb.lymar.utils.EnemyEmitter;
 
@@ -31,10 +33,12 @@ public class GameScreen extends BaseScreen {
 
     private Texture bg;
     private TextureAtlas atlas;
+    private Game game;
 
     private Background background;
     private Star[] stars;
     private GameOver gameOver;
+    private NewGame newGame;
 
     private BulletPool bulletPool;
     private EnemyPool enemyPool;
@@ -49,6 +53,10 @@ public class GameScreen extends BaseScreen {
     private EnemyEmitter enemyEmitter;
     private State state;
 
+    public GameScreen(Game game) {
+        this.game = game;
+    }
+
     @Override
     public void show() {
         super.show();
@@ -60,6 +68,7 @@ public class GameScreen extends BaseScreen {
             stars[i] = new Star(atlas);
         }
         gameOver = new GameOver(atlas);
+        newGame = new NewGame(atlas, game);
         bulletPool = new BulletPool();
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.wav"));
         explosionPool = new ExplosionPool(atlas, explosionSound);
@@ -91,6 +100,7 @@ public class GameScreen extends BaseScreen {
         }
         mainShip.resize(worldBounds);
         gameOver.resize(worldBounds);
+        newGame.resize(worldBounds);
     }
 
     @Override
@@ -125,6 +135,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
+        newGame.touchDown(touch, pointer, button);
         if (state == State.PLAYING) {
             mainShip.touchDown(touch, pointer, button);
         }
@@ -133,6 +144,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer, int button) {
+        newGame.touchUp(touch, pointer, button);
         if (state == State.PLAYING) {
             mainShip.touchUp(touch, pointer, button);
         }
@@ -211,6 +223,7 @@ public class GameScreen extends BaseScreen {
             enemyPool.drawActiveSprites(batch);
         } else {
             gameOver.draw(batch);
+            newGame.draw(batch);
         }
         explosionPool.drawActiveSprites(batch);
         batch.end();

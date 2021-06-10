@@ -3,26 +3,23 @@ package com.gb.lymar.sprite;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.gb.lymar.base.ScaledButton;
+import com.gb.lymar.base.Sprite;
 import com.gb.lymar.math.Rect;
 import com.gb.lymar.screen.GameScreen;
 
-public class PlayButton extends ScaledButton {
-    private static final float HEIGHT = 0.26f;
-    private static final float PADDING = 0.03f;
+public class NewGame extends ScaledButton {
+    private static final float HEIGHT = 0.08f;
+    private Game game;
 
-    private final Game game;
-
-    public PlayButton(TextureAtlas atlas, Game game) {
-        super(atlas.findRegion("btPlay"));
+    public NewGame(TextureAtlas atlas, Game game) {
+        super(atlas.findRegion("button_new_game"));
         this.game = game;
     }
 
     @Override
     public void resize(Rect worldBounds) {
-        super.resize(worldBounds);
         setHeightProportion(HEIGHT);
-        setBottom(worldBounds.getBottom() + PADDING);
-        setLeft(worldBounds.getLeft() + PADDING);
+        setTop(worldBounds.pos.y + 0.3f);
     }
 
     @Override
