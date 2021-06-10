@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.gb.lymar.base.Ship;
 import com.gb.lymar.math.Rect;
 import com.gb.lymar.pool.BulletPool;
+import com.gb.lymar.pool.ExplosionPool;
 
 
 public class MainShip extends Ship {
@@ -21,8 +22,9 @@ public class MainShip extends Ship {
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound bulletSound) {
+    public MainShip(TextureAtlas atlas, ExplosionPool explosionPool, BulletPool bulletPool, Sound bulletSound) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
+        this.explosionPool = explosionPool;
         this.bulletPool = bulletPool;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.bulletSound = bulletSound;
@@ -55,12 +57,15 @@ public class MainShip extends Ship {
             setLeft(worldBounds.getLeft());
             stop();
         }
-//        if (getLeft() > worldBounds.getRight()) {
-//            setRight(worldBounds.getLeft());
-//        }
-//        if (getRight() < worldBounds.getLeft()) {
-//            setLeft(worldBounds.getRight());
-//        }
+    }
+
+    public boolean isBulletCollision(Rect bullet) {
+        return !(
+                bullet.getRight() < getLeft()
+                        || bullet.getLeft() > getRight()
+                        || bullet.getBottom() > pos.y
+                        || bullet.getTop() < getBottom()
+        );
     }
 
     @Override
