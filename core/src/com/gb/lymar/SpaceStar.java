@@ -10,3 +10,4 @@ public class SpaceStar extends Game {
         setScreen(new MenuScreen(this));
 	}
 }
+//Спасибо за курс!!!
