@@ -7,7 +7,7 @@ import com.gb.lymar.math.Rect;
 import com.gb.lymar.math.Rnd;
 
 public class Star extends Sprite {
-    private final Vector2 v;
+    protected final Vector2 v;
     private Rect worldBounds;
 
     public Star(TextureAtlas atlas) {
@@ -22,6 +22,21 @@ public class Star extends Sprite {
     public void update(float delta) {
         super.update(delta);
         pos.mulAdd(v, delta);
+        checkBounds();
+        animate(delta);
+    }
+
+    @Override
+    public void resize(Rect worldBounds) {
+        super.resize(worldBounds);
+        this.worldBounds = worldBounds;
+        setHeightProportion(Rnd.nextFloat(0.005f, 0.013f));
+        float x = Rnd.nextFloat(worldBounds.getLeft(), worldBounds.getRight());
+        float y = Rnd.nextFloat(worldBounds.getBottom(), worldBounds.getTop());
+        pos.set(x, y);
+    }
+
+    protected void checkBounds() {
         if (getRight() < worldBounds.getLeft()) {
             setLeft(worldBounds.getRight());
         }
@@ -34,21 +49,14 @@ public class Star extends Sprite {
         if (getBottom() > worldBounds.getTop()) {
             setTop(worldBounds.getBottom());
         }
+    }
+
+    protected void animate(float delta) {
         float height = getHeight();
         height += 0.0001f;
         if (height >= 0.012f) {
             height = 0.008f;
         }
         setHeightProportion(height);
-    }
-
-    @Override
-    public void resize(Rect worldBounds) {
-        super.resize(worldBounds);
-        this.worldBounds = worldBounds;
-        setHeightProportion(Rnd.nextFloat(0.005f, 0.013f));
-        float x = Rnd.nextFloat(worldBounds.getLeft(), worldBounds.getRight());
-        float y = Rnd.nextFloat(worldBounds.getBottom(), worldBounds.getTop());
-        pos.set(x, y);
     }
 }

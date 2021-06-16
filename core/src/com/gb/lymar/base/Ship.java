@@ -26,10 +26,10 @@ public class Ship extends Sprite {
     protected int damage;
     protected int hp;
 
-    private float damageAnimateTimer = DAMAGE_ANIMATE_INTERVAL;
-
     protected float reloadInterval;
     protected float reloadTimer;
+
+    private float damageAnimateTimer = DAMAGE_ANIMATE_INTERVAL;
 
     public Ship() {
     }
@@ -70,6 +70,18 @@ public class Ship extends Sprite {
 
     public int getDamage() {
         return damage;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public Vector2 getV() {
+        return v;
+    }
+
+    public void setBulletPos(Vector2 bulletPos) {
+        this.bulletPos.set(bulletPos);
     }
 
     private void shoot() {
